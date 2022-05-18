@@ -11,6 +11,10 @@ import time
 class BurpExtender(IBurpExtender, IContextMenuFactory, IHttpRequestResponse):
 
     CUT_TEXT = "[...]"
+    REQUEST_START_MODIFIER = 'request\n```\n'
+    REQUEST_END_MODIFIER = '\n```'
+    RESPONSE_START_MODIFIER = 'response\n```\n'
+    RESPONSE_END_MODIFIER = '\n```'
 
     def str_to_array(self, string):
         return [ord(c) for c in string]
@@ -44,10 +48,15 @@ class BurpExtender(IBurpExtender, IContextMenuFactory, IHttpRequestResponse):
         httpRequest = httpTraffic.getRequest()
         httpResponse = httpTraffic.getResponse()
 
-        data = self.stripTrailingNewlines(httpRequest)
+        data = []
+        data.extend(self.str_to_array(self.REQUEST_START_MODIFIER))
+        data.extend(self.stripTrailingNewlines(httpRequest))
+        data.extend(self.str_to_array(self.REQUEST_END_MODIFIER))
         data.append(13) # Line Break
         data.append(13)
+        data.extend(self.str_to_array(self.RESPONSE_START_MODIFIER))
         data.extend(self.stripTrailingNewlines(httpResponse))
+        data.extend(self.str_to_array(self.RESPONSE_END_MODIFIER))
 
         self.copyToClipboard(data)
 
