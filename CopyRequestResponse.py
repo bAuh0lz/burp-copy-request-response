@@ -34,11 +34,11 @@ class BurpExtender(IBurpExtender, IContextMenuFactory, IHttpRequestResponse):
         self.context = invocation
         menuList = ArrayList()
 
-        menuList.add(JMenuItem("Copy HTTP Request & Response (Full/Full)",
+        menuList.add(JMenuItem("Full/Full",
                 actionPerformed=self.copyRequestFullResponseFull))
-        menuList.add(JMenuItem("Copy HTTP Request & Response (Full/Header)",
+        menuList.add(JMenuItem("Full/Header",
                 actionPerformed=self.copyRequestFullResponseHeader))
-        menuList.add(JMenuItem("Copy HTTP Request & Response (Full/Header + Selected Data)",
+        menuList.add(JMenuItem("Full/Header + Selected Data",
                 actionPerformed=self.copyRequestFullResponseHeaderData))
 
         return menuList
